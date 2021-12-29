@@ -1,9 +1,11 @@
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtCore import Qt, QSize, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor, QPen
 from PyQt5.QtWidgets import QWidget
 
 
 class ResizeFrame(QWidget):
+    deactivated = pyqtSignal()
+
     def __init__(self):
         super().__init__()
         self.__initUi()
@@ -43,3 +45,7 @@ class ResizeFrame(QWidget):
         else:
             self.setMinimumSize(resize_frame_min_width, resize_frame_min_height)
 
+    def event(self, e):
+        if e.type() == 25:
+            self.deactivated.emit()
+        return super().event(e)
